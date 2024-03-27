@@ -1,0 +1,74 @@
+﻿@model List<Usuario>
+
+@{
+    int registros = 0;
+    int numeroPagina = 1;
+    int tipo = 0;
+
+    if (ViewData["REGISTROS"] != null)
+    {
+        registros = (int)ViewData["REGISTROS"];
+        tipo = (int)ViewData["TIPO"];
+    }
+}
+
+<h1>Paginar Usuarios Filtro</h1>
+
+<h2>
+    Registros filtrados: @registros
+</h2>
+
+<form method="post">
+    <label>Introduzca Tipo</label>
+    <select name="tipo" class="form-control">
+        <option value="1">Admin</option>
+        <option value="3">Medicos</option>
+        <option value="4">Paciente</option>
+    </select>
+    <button class="btn btn-success">
+        Buscar
+    </button>
+</form>
+
+@if (Model != null)
+{
+    <div>
+        <ul class="list-group list-group-horizontal">
+            @for (int i = 1; i <= registros; i += 4)
+            {
+                <li class="list-group-item">
+                    <a asp-controller="Usuarios"
+                       asp-action="UsuariosFiltro"
+                       asp-route-posicion="@i"
+                       asp-route-tipo="@tipo">
+                        @numeroPagina 
+                    </a>
+                </li>
+                numeroPagina += 1;
+            }
+        </ul>
+    </div>
+    <hr />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.IdUsuario</td>
+                    <td>@item.Nombre</td>
+                    <td>@item.Apellido</td>
+                    <td>@item.Correo</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+} 

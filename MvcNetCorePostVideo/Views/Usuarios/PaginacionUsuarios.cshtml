@@ -1,0 +1,44 @@
+﻿@model List<Usuario>
+
+@{
+    int registros = (int)ViewData["REGISTROS"];
+    int numeroPagina = 1;
+}
+
+<h1>Paginacion de Usuarios</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Correo</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.IdUsuario</td>
+                <td>@item.Nombre</td>
+                <td>@item.Apellido</td>
+                <td>@item.Correo</td>
+            </tr>
+        }
+    </tbody>
+</table> 
+
+<div>
+    <ul class="list-group list-group-horizontal">
+        @for (int i = 1; i <= registros; i += 4)
+        {
+            <li class="list-group-item">
+                <a asp-controller="Usuarios" asp-action="PaginacionUsuarios" asp-route-posicion="@i">
+                    @numeroPagina
+                </a>
+            </li>
+            numeroPagina += 1;
+        }
+    </ul>
+</div>
